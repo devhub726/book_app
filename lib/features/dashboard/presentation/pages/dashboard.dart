@@ -1,93 +1,73 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
+import '../../../../components/search_bar_widget.dart';
+import '../../../category/presentation/components/category_list_view.dart';
 import '../../controller/dashboard_controller.dart';
-import '../components/book_list.dart';
 import '../components/book_title.dart';
 import '../components/image_slider.dart';
-import '../components/search_bar_widget.dart';
 
 class Dashboard extends StatelessWidget {
-  Dashboard({super.key});
-
   final searchController = TextEditingController();
+
+  Dashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(DashboardController());
 
-    return Container(
-      color: Theme.of(context).colorScheme.tertiary,
-      child: SafeArea(
-        child: Scaffold(
-          body: Column(
-            children: [
-              SearchBarWidget(
-                searchController: TextEditingController(),
-                onChanged: controller.searchQuery,
-                onTap: () {},
-                icon: Icons.notifications_none,
-              ),
-              // Wrap content in SingleChildScrollView
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.only(bottom: 10),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            double width = constraints.maxWidth;
+            bool isTablet = width >= 600 && width < 1200;
+            bool isDesktop = width >= 1200;
+
+            double sliderHeight = isTablet ? 300 : (isDesktop ? 500 : 200);
+            double bookListHeight = isTablet ? 300 : (isDesktop ? 400 : 250);
+            double titleFontSize = isDesktop ? 32 : (isTablet ? 28 : 24);
+
+            return Column(
+              children: [
+                SearchBarWidget(
+                  searchController: searchController,
+                  onChanged: controller.searchQuery.call,
+                  onTap: () {},
+                  icon: Icons.notifications_none,
+                  notificationsNumber: controller.notifications_no,
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        // Image slider widget
-                        ImageSlider(imgSlide: controller.imgSlide),
-                        const BookTitle(title: "Top Categories"),
-                        BooksList(books: controller.books),
-                        const BookTitle(title: "Latest Books"),
-                        BooksList(books: controller.books),
+                        ImageSlider(
+                          imgSlide: controller.imgSlide,
+                          height: sliderHeight,
+                        ),
+                        BookTitle(
+                            title: controller.top_cat.value,
+                            fontSize: titleFontSize),
+                        CategoryListView(
+                          books: controller.books,
+                          height: bookListHeight,
+                          isMinimal: true,
+                        ),
+                        BookTitle(
+                            title: controller.latest_book.value,
+                            fontSize: titleFontSize),
+                        CategoryListView(
+                          books: controller.books,
+                          height: bookListHeight,
+                          isMinimal: true,
+                        ),
                       ],
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          bottomNavigationBar: Stack(
-            alignment: Alignment.center,
-            clipBehavior: Clip.none,
-            children: [
-              GNav(
-                gap: 8,
-                iconSize: 30,
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                color: Theme.of(context).colorScheme.tertiary,
-                activeColor: Theme.of(context).colorScheme.surface,
-                tabs: const [
-                  GButton(icon: Icons.home),
-                  GButton(
-                      icon: Icons.menu_book,
-                      margin: EdgeInsets.only(right: 90)),
-                  GButton(icon: Icons.star),
-                  GButton(icon: Icons.menu),
-                ],
-              ),
-              Positioned(
-                bottom: 15,
-                child: GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    width: 50,
-                    height: 80,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      color: Colors.transparent,
-                    ),
-                    child: Image.asset(
-                      'assets/images/book-1.png',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+              ],
+            );
+          },
         ),
       ),
     );

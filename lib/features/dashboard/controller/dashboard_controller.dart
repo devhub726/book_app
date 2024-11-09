@@ -9,9 +9,12 @@ class DashboardController extends GetxController {
 
   var searchQuery = ''.obs;
   final currentPage = 0.obs;
+  final top_cat = "Top Categories".obs;
+  final latest_book = "latest Books".obs;
   var books = <Book>[].obs;
   var imgList = <String>[].obs;
   var imgSlide = <String>[].obs;
+  var notifications_no = 99.obs;
 
   @override
   void onInit() {
@@ -29,7 +32,16 @@ class DashboardController extends GetxController {
       Book(name: "Blue Ocean Strategy", image: "assets/images/book-2.png"),
       Book(name: "Playing to Win", image: "assets/images/book-3.png"),
       Book(name: "The Outsiders", image: "assets/images/book-4.png"),
-      Book(name: "Competing in the Age of AI", image: "assets/images/book-5.png"),
+      Book(
+          name: "Competing in the Age of AI",
+          image: "assets/images/book-5.png"),
+      Book(name: "Financial Intelligence", image: "assets/images/book-1.png"),
+      Book(name: "Blue Ocean Strategy", image: "assets/images/book-2.png"),
+      Book(name: "Playing to Win", image: "assets/images/book-3.png"),
+      Book(name: "The Outsiders", image: "assets/images/book-4.png"),
+      Book(
+          name: "Competing in the Age of AI",
+          image: "assets/images/book-5.png"),
     ];
   }
 

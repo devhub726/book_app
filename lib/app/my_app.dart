@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../features/dashboard/presentation/pages/dashboard.dart';
+import 'package:get/get.dart';
+import '../components/bottom_nav_bar.dart';
 import '../themes/light_mode.dart';
 
 class MyApp extends StatelessWidget {
@@ -7,9 +8,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       theme: lightMode,
-      home:  Dashboard(),
+      home: BottomNavBar(),
     );
   }
 }

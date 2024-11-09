@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 class BookTitle extends StatelessWidget {
   final String title;
-  const BookTitle({Key? key, required this.title}) : super(key: key);
+  final double fontSize;
+
+  const BookTitle({super.key, required this.title, required this.fontSize});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +14,7 @@ class BookTitle extends StatelessWidget {
         children: [
           Text(
             title,
-            style: const TextStyle(fontSize: 30),
+            style: TextStyle(fontSize: fontSize),
           ),
           Container(
             height: 1.0,
